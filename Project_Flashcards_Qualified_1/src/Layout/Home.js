@@ -1,14 +1,15 @@
-import React, { Card } from "react";
+import React from "react";
 
-function Home() {
+function Home(decks) {
   return (
     <>
       <button type="button">Create Deck</button>
-      <Card>
+
+      <div className="card">
         <p>Here's a card</p>
         <button type="button">View</button>
         <button type="button">Study</button>
-      </Card>
+      </div>
     </>
   );
 }
