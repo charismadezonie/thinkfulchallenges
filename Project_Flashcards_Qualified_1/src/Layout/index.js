@@ -4,7 +4,7 @@ import Header from "./Header";
 import NotFound from "./NotFound";
 import Home from "./Home";
 
-const decks = fetch("/data/db.json").then((res) => res);
+const decks = fetch("./json-server.json").then((res) => res.data);
 console.log(decks);
 
 function Layout() {
