@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { deleteDeck, readDeck, listCards } from "../../utils/api";
+import { deleteDeck, readDeck, listCards, deleteCard } from "../../utils/api";
 import { useRouteMatch, Link, useHistory } from "react-router-dom";
 
 function Deck({ slug }) {
+  const { url } = useRouteMatch();
   const { params } = useRouteMatch();
   const deckId = params.slug;
   const [currentDeck, setCurrentDeck] = useState({});
@@ -29,10 +30,17 @@ function Deck({ slug }) {
     fetchCardList();
   }, [deckId]);
 
-  function handleDelete() {
+  function handleDelete(deckId) {
     if (window.confirm("Are you sure?")) {
       deleteDeck(deckId);
-      history.push("/");
+      history.push(`/decks/${deckId}`);
+    }
+  }
+
+  function handleCardDelete(cardId) {
+    if (window.confirm("Are you sure?")) {
+      deleteCard(cardId);
+      history.push(`/decks/${deckId}`);
     }
   }
 
@@ -49,21 +57,36 @@ function Deck({ slug }) {
       <div>
         <h1>{currentDeck.name}</h1>
         <p>{currentDeck.description}</p>
-        <Link to={`/decks/${slug}/edit`}>
+        <Link to={`${url}/edit`}>
           <button type="button">Edit</button>
         </Link>
-        <Link to={`/decks/${slug}/study`}>
+        <Link to={`${url}/study`}>
           <button type="button">Study</button>
         </Link>
-        <Link to={`/decks/${slug}/cards/new`}>
+        <Link to={`${url}}/cards/new`}>
           <button type="button">Add Cards</button>
         </Link>
         <button type="button" onClick={handleDelete}>
           Delete
         </button>
-        <h1>Cards</h1>
       </div>
-      <div></div>
+      <div>
+        <h1>Cards</h1>
+        {cardList.map((card, index) => {
+          return (
+            <div className="card" key={index}>
+              <p>{card.front}</p>
+              <p>{card.back}</p>
+              <Link to={`${url}/cards/${card.id}/edit`}>
+                <button type="button">Edit</button>
+              </Link>
+              <button type="button" onClick={() => handleCardDelete(card.id)}>
+                Delete
+              </button>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 }

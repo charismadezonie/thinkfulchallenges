@@ -30,7 +30,7 @@ function Layout() {
             <Study deckId={slug} />
           </Route>
           <Route path="/decks/:slug/edit">
-            <EditDeck />
+            <EditDeck slug={slug} />
           </Route>
           <Route>
             <NotFound />
