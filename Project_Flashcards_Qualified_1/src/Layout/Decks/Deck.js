@@ -63,7 +63,7 @@ function Deck({ slug }) {
         <Link to={`${url}/study`}>
           <button type="button">Study</button>
         </Link>
-        <Link to={`${url}}/cards/new`}>
+        <Link to={`${url}/cards/new`}>
           <button type="button">Add Cards</button>
         </Link>
         <button type="button" onClick={handleDelete}>
