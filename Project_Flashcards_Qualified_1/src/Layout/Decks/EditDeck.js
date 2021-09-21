@@ -6,6 +6,9 @@ function EditDeck() {
   const { params } = useRouteMatch();
   const deckId = params.slug;
   const [deckToEdit, setDeckToEdit] = useState();
+  const [editedData, setEditedData] = useState({ name: "", description: "" });
+
+  console.log(editedData);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -16,6 +19,13 @@ function EditDeck() {
     }
     fetchData();
   }, [deckId]);
+
+  function handleChange({ target }) {
+    setEditedData({
+      ...editedData,
+      [target.name]: target.value,
+    });
+  }
 
   if (deckToEdit) {
     return (
@@ -43,9 +53,9 @@ function EditDeck() {
                 type="text"
                 id="name"
                 name="name"
-                placeholder="Deck Name"
-                onChange={() => console.log("changed")}
-                value={deckToEdit.name}
+                placeholder={deckToEdit.name}
+                onChange={handleChange}
+                value={editedData.name}
               />
             </label>
             <br />
@@ -56,9 +66,9 @@ function EditDeck() {
                 id="description"
                 name="description"
                 className="text-area"
-                placeholder="Brief description of the deck"
-                onChange={() => console.log("changed")}
-                value={deckToEdit.description}
+                placeholder={deckToEdit.description}
+                onChange={handleChange}
+                value={editedData.description}
               />
             </label>
             <br />

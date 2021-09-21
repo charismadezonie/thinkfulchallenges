@@ -12,7 +12,7 @@ function CreateDeck() {
       [target.name]: target.value,
     });
   }
-
+  console.log(newDeckData);
   async function handleSubmit(event) {
     event.preventDefault();
     const response = await createDeck(newDeckData);
@@ -60,6 +60,7 @@ function CreateDeck() {
         <Link to="/">
           <button type="button">Cancel</button>
         </Link>
+
         <button type="submit">Submit</button>
       </form>
     </>
