@@ -30,6 +30,7 @@ function Home({ decks, setDecks }) {
             <div className="card" key={index}>
               <p>{deck.name}</p>
               <p>{deck.cards.length} cards</p>
+              <p>{deck.description}</p>
               <Link to={`/decks/${deck.id}`}>
                 <button type="button">View</button>
               </Link>
