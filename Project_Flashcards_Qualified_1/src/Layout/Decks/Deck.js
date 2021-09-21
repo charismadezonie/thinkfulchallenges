@@ -36,8 +36,6 @@ function Deck({ slug }) {
     }
   }
 
-  console.log(cardList);
-
   return (
     <>
       <nav aria-label="breadcrumb">
