@@ -69,8 +69,7 @@ function Study() {
         </Link>
       </>
     );
-  }
-  if (side === "front") {
+  } else if (side === "front") {
     return (
       <>
         <StudyBreadcrumb currentDeck={currentDeck} />
