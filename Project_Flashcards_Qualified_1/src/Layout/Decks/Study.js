@@ -1,7 +1,12 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useRouteMatch } from "react-router-dom";
+import { readDeck } from "../../utils/api";
 
 function Study() {
+  const { params } = useRouteMatch();
+  const deckId = params.slug;
+  const cards = readDeck(deckId).then(({ cards }) => cards);
+  console.log(cards);
   return (
     <>
       <nav aria-label="breadcrumb">
@@ -17,12 +22,7 @@ function Study() {
           </li>
         </ol>
       </nav>
-      <h1>Deck Title</h1>
-      <div className="card">
-        <h4 className="card-title">Card Title from API</h4>
-        <p>Card content from API</p>
-        <button>Flip</button>
-      </div>
+      <p>{cards.card}</p>
     </>
   );
 }

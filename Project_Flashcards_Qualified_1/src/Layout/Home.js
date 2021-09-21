@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
-import { Link, Route, Switch, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { listDecks, deleteDeck } from "../utils/api";
-import Deck from "./Decks/Deck";
-import Study from "./Decks/Study";
 
 function Home({ decks, setDecks }) {
   useEffect(() => {

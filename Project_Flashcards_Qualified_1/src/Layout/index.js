@@ -26,7 +26,7 @@ function Layout() {
             <Deck />
           </Route>
           <Route path="/decks/:slug/study">
-            <Study />
+            <Study deckId={slug} />
           </Route>
           <Route>
             <NotFound />
