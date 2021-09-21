@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useParams } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import Home from "./Home";
@@ -9,6 +9,7 @@ import CreateDeck from "./Decks/CreateDeck";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
+  let { slug } = useParams();
   return (
     <>
       <Header />
@@ -21,10 +22,10 @@ function Layout() {
           <Route path="/decks/new">
             <CreateDeck />
           </Route>
-          <Route exact path="/decks/:deckId">
+          <Route exact path="/decks/:slug">
             <Deck />
           </Route>
-          <Route path="/decks/:deckId/study">
+          <Route path="/decks/:slug/study">
             <Study />
           </Route>
           <Route>

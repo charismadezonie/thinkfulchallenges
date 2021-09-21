@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Route, Switch, useParams } from "react-router-dom";
 import { listDecks, deleteDeck } from "../utils/api";
+import Deck from "./Decks/Deck";
+import Study from "./Decks/Study";
 
 function Home({ decks, setDecks }) {
   useEffect(() => {
@@ -25,14 +27,15 @@ function Home({ decks, setDecks }) {
         <button type="button">Create Deck</button>
       </Link>
       <div>
-        {decks.map((deck) => {
+        {decks.map((deck, index) => {
           return (
-            <div className="card">
+            <div className="card" key={index}>
               <p>{deck.name}</p>
-              <Link to="/decks/:deckId">
+              <p>{deck.cards.length} cards</p>
+              <Link to={`/decks/${deck.id}`}>
                 <button type="button">View</button>
               </Link>
-              <Link to="/decks/:deckId/study">
+              <Link to={`/decks/${deck.id}/study`}>
                 <button type="button">Study</button>
               </Link>
               <button type="button" onClick={() => handleDelete(deck.id)}>

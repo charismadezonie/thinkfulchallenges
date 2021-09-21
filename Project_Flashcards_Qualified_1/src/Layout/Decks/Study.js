@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Study(deck) {
+function Study() {
   return (
     <>
       <nav aria-label="breadcrumb">
