@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useRouteMatch, useHistory } from "react-router-dom";
-import { readCard, updateCard } from "../../../utils/api";
+import { readCard, updateCard, readDeck } from "../../../utils/api";
 
 function EditCard() {
   const { params } = useRouteMatch();
   const deckId = params.slug;
   const cardId = params.cardId;
   const [cardToEdit, setCardToEdit] = useState();
+  const [currentDeck, setCurrentDeck] = useState({});
   const [editedData, setEditedData] = useState({
     deckId: deckId,
     id: cardId,
@@ -14,6 +15,16 @@ function EditCard() {
     back: "",
   });
   const history = useHistory();
+
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    async function fetchCards() {
+      const decksData = await readDeck(deckId, abortController.signal);
+      setCurrentDeck(decksData);
+    }
+    fetchCards();
+  }, [deckId]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -49,7 +60,7 @@ function EditCard() {
               <Link to="/">Home</Link>
             </li>
             <li className="breadcrumb-item">
-              <Link to={`/decks/${deckId}`}>{cardToEdit.name}</Link>
+              <Link to={`/decks/${deckId}`}>{currentDeck.name}</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               Edit Card
