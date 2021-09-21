@@ -6,10 +6,12 @@ function EditDeck() {
   const { params } = useRouteMatch();
   const deckId = params.slug;
   const [deckToEdit, setDeckToEdit] = useState();
-  const [editedData, setEditedData] = useState({ name: "", description: "" });
+  const [editedData, setEditedData] = useState({
+    id: deckId,
+    name: "",
+    description: "",
+  });
   const history = useHistory();
-
-  console.log(editedData);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -31,7 +33,7 @@ function EditDeck() {
   async function handleSubmit(event) {
     event.preventDefault();
     const response = await updateDeck(editedData);
-    history.push(`/decks`);
+    history.push(`/decks/${response.id}`);
   }
 
   if (deckToEdit) {
@@ -43,7 +45,7 @@ function EditDeck() {
               <Link to="/">Home</Link>
             </li>
             <li className="breadcrumb-item">
-              <Link to="#">title</Link>
+              <Link to="#">{deckToEdit.name}</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               Edit Deck
@@ -52,7 +54,7 @@ function EditDeck() {
         </nav>
         <div>
           <h1>Edit Deck</h1>
-          <form>
+          <form onSubmit={handleSubmit}>
             <label htmlFor="name">
               Name
               <br />
