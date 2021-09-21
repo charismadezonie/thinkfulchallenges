@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, Link } from "react-router-dom";
 import { readDeck, readCard, listCards } from "../../utils/api";
 import StudyBreadcrumb from "../StudyBreadcrumb";
 
@@ -64,6 +64,9 @@ function Study() {
           You need at least 3 cards to study. There are {cardList["length"]}{" "}
           cards in this deck.
         </p>
+        <Link to="/decks/new">
+          <button type="button">Add Cards</button>
+        </Link>
       </>
     );
   }
