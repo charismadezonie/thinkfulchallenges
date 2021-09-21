@@ -12,7 +12,7 @@ function CreateDeck() {
       [target.name]: target.value,
     });
   }
-  console.log(newDeckData);
+
   async function handleSubmit(event) {
     event.preventDefault();
     const response = await createDeck(newDeckData);

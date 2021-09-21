@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
-import { readDeck } from "../../utils/api";
+import { Link, useRouteMatch, useHistory } from "react-router-dom";
+import { readDeck, updateDeck } from "../../utils/api";
 
 function EditDeck() {
   const { params } = useRouteMatch();
   const deckId = params.slug;
   const [deckToEdit, setDeckToEdit] = useState();
   const [editedData, setEditedData] = useState({ name: "", description: "" });
+  const history = useHistory();
 
   console.log(editedData);
 
@@ -25,6 +26,12 @@ function EditDeck() {
       ...editedData,
       [target.name]: target.value,
     });
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const response = await updateDeck(editedData);
+    history.push(`/decks`);
   }
 
   if (deckToEdit) {
