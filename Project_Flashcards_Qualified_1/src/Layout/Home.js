@@ -11,7 +11,7 @@ function Home({ decks, setDecks }) {
       setDecks(decksData);
     }
     fetchDecks();
-  }, [decks]);
+  }, [setDecks]);
 
   function handleDelete(deckId) {
     if (window.confirm("Are you sure?")) {

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import { readDeck, readCard, listCards } from "../../utils/api";
+import StudyBreadcrumb from "../StudyBreadcrumb";
 
 function Study() {
   const { params } = useRouteMatch();
   const deckId = params.slug;
-  let cardId = 1;
   const [currentDeck, setCurrentDeck] = useState({});
   const [currentCard, setCurrentCard] = useState({});
   const [cardList, setCardList] = useState([]);
+  const [side, setSide] = useState("front");
+  const [cardId, setCardId] = useState(1);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -18,7 +20,7 @@ function Study() {
       setCurrentDeck(decksData);
     }
     fetchCards();
-  }, []);
+  }, [deckId]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -28,7 +30,7 @@ function Study() {
       setCurrentCard(cardData);
     }
     fetchCurrentCard();
-  }, []);
+  }, [cardId]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -38,40 +40,64 @@ function Study() {
       setCardList(cardsData);
     }
     fetchCardList();
-  }, []);
+  }, [deckId]);
 
   function handleFlip() {
-    console.log("flip NOW DO IT");
+    setSide("back");
   }
 
-  console.log(cardList);
-
-  return (
-    <>
-      <nav aria-label="breadcrumb">
-        <ol className="breadcrumb">
-          <li className="breadcrumb-item">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="breadcrumb-item">
-            <Link to="#">{currentDeck.name}</Link>
-          </li>
-          <li className="breadcrumb-item active" aria-current="page">
-            Study
-          </li>
-        </ol>
-      </nav>
-      <div className="card">
-        <h1 className="card-title">
-          Card {currentCard.id} of {cardList["length"]}
-        </h1>
-        <p>{currentCard.front}</p>
-        <button type="button" onClick={handleFlip}>
-          Flip
-        </button>
-      </div>
-    </>
-  );
+  function handleNext() {
+    if (cardId < cardList["length"]) {
+      setCardId(cardId + 1);
+    } else {
+      if (window.confirm("Restart Cards?")) {
+        setCardId(1);
+      }
+    }
+    setSide("front");
+  }
+  if (cardList["length"] <= 2) {
+    return (
+      <>
+        <h1>Not enough cards.</h1>
+        <p>
+          You need at least 3 cards to study. There are {cardList["length"]}{" "}
+          cards in this deck.
+        </p>
+      </>
+    );
+  }
+  if (side === "front") {
+    return (
+      <>
+        <StudyBreadcrumb currentDeck={currentDeck} />
+        <div className="card">
+          <h1 className="card-title">
+            Card {currentCard.id} of {cardList["length"]}
+          </h1>
+          <p>{currentCard.front}</p>
+          <button type="button" onClick={handleFlip}>
+            Flip
+          </button>
+        </div>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <StudyBreadcrumb currentDeck={currentDeck} />
+        <div className="card">
+          <h1 className="card-title">
+            Card {cardId} of {cardList["length"]}
+          </h1>
+          <p>{currentCard.back}</p>
+          <button type="button" onClick={handleNext}>
+            Next
+          </button>
+        </div>
+      </>
+    );
+  }
 }
 
 export default Study;
