@@ -10,8 +10,8 @@ function EditCard() {
   const [editedData, setEditedData] = useState({
     deckId: deckId,
     id: cardId,
-    name: "",
-    description: "",
+    front: "",
+    back: "",
   });
   const history = useHistory();
 
@@ -65,9 +65,9 @@ function EditCard() {
               <textarea
                 id="front"
                 name="front"
-                placeholder={cardToEdit.name}
+                placeholder={cardToEdit.front}
                 onChange={handleChange}
-                value={editedData.name}
+                value={editedData.front}
               />
             </label>
             <br />
@@ -75,12 +75,12 @@ function EditCard() {
               Description
               <br />
               <textarea
-                id="description"
-                name="description"
+                id="back"
+                name="back"
                 className="text-area"
-                placeholder={cardToEdit.description}
+                placeholder={cardToEdit.back}
                 onChange={handleChange}
-                value={editedData.description}
+                value={editedData.back}
               />
             </label>
             <br />
