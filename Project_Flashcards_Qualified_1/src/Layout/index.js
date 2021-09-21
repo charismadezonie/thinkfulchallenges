@@ -35,7 +35,7 @@ function Layout() {
             <EditDeck slug={slug} />
           </Route>
           <Route path="/decks/:slug/cards/new">
-            <AddCard deckId={slug} />
+            <AddCard />
           </Route>
           <Route path="/decks/:slug/cards/:cardId/edit">
             <EditCard />

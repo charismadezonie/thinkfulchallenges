@@ -46,7 +46,7 @@ function CreateCard() {
             <Link to="/">Home</Link>
           </li>
           <li className="breadcrumb-item">
-            <Link to="/">deck title</Link>
+            <Link to="/">{currentDeck.name}</Link>
           </li>
           <li className="breadcrumb-item">Create Card</li>
         </ol>
