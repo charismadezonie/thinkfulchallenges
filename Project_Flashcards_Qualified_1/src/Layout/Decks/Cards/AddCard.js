@@ -13,7 +13,6 @@ function CreateCard() {
     deckId: deckId,
   });
 
-  console.log(newCardData);
   useEffect(() => {
     const abortController = new AbortController();
 

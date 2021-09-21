@@ -43,8 +43,6 @@ function EditCard() {
     });
   }
 
-  console.log(editedData);
-
   async function handleSubmit(event) {
     event.preventDefault();
     const response = await updateCard(editedData);
