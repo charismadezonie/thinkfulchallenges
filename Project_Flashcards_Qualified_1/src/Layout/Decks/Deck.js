@@ -30,7 +30,8 @@ function Deck({ deck, setDeck }) {
     fetchCardList();
   }, [deckId]);
 
-  function handleDelete(deckId) {
+  function handleDelete(event, deckId) {
+    event.preventDefault();
     if (window.confirm("Are you sure?")) {
       deleteDeck(deckId);
       history.push("/");
