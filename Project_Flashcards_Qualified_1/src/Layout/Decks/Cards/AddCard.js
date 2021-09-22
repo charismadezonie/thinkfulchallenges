@@ -39,10 +39,10 @@ function AddCard({ deck, setDeck, card, setCard }) {
           <li className="breadcrumb-item">
             <Link to="/">{deck.name}</Link>
           </li>
-          <li className="breadcrumb-item">Create Card</li>
+          <li className="breadcrumb-item">Add Card</li>
         </ol>
       </nav>
-      <h1>Create Card</h1>
+      <h1>{`${deck.name}: Add Card`}</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="front">
           Front
