@@ -23,7 +23,7 @@ export function Study({ deck, setDeck }) {
       });
     }
     fetchCards();
-  }, [deckId]);
+  }, [deckId, setDeck]);
 
   function handleFlip() {
     setCollection({
@@ -33,14 +33,8 @@ export function Study({ deck, setDeck }) {
   }
 
   function handleNext() {
-    if (collection.cardNumber < collection.cards.length) {
-      setCollection({
-        ...collection,
-        cardNumber: collection.cardNumber + 1,
-        side: "front",
-      });
-    } else {
-      if (window.confirm("Start Over?")) {
+    if (collection.cardNumber >= collection.cards.length - 1) {
+      if (window.confirm("Restart Session?")) {
         setCollection({
           ...collection,
           cardNumber: 0,
@@ -49,6 +43,12 @@ export function Study({ deck, setDeck }) {
       } else {
         history.push("/");
       }
+    } else {
+      setCollection({
+        ...collection,
+        cardNumber: collection.cardNumber + 1,
+        side: "front",
+      });
     }
   }
 
@@ -70,10 +70,10 @@ export function Study({ deck, setDeck }) {
         <StudyBreadcrumb deck={deck} />
         <h1>Study: {deck.name}</h1>
         <div className="card">
-          <h6>
+          <h3>
             Card {`${collection.cardNumber + 1} of ${collection.cards.length}`}
-          </h6>
-          <p className="card-text">
+          </h3>
+          <p>
             {collection.side === "front"
               ? collection.cards[collection.cardNumber].front
               : collection.cards[collection.cardNumber].back}
