@@ -24,10 +24,17 @@ function AddCard({ deck, setDeck, card, setCard }) {
     });
   }
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
-    const response = await createCard(card.deckId, card);
-    history.push(`/decks/${response.deckId}`);
+    async function updateCard() {
+      await createCard(deckId, card);
+    }
+    updateCard();
+    setCard({
+      front: "",
+      back: "",
+      deckId: deckId,
+    });
   }
 
   return (
@@ -72,9 +79,9 @@ function AddCard({ deck, setDeck, card, setCard }) {
         </label>
         <br />
         <Link to="/">
-          <button type="button">Cancel</button>
+          <button type="button">Done</button>
         </Link>
-        <button type="submit">Submit</button>
+        <button type="submit">Save</button>
       </form>
     </>
   );

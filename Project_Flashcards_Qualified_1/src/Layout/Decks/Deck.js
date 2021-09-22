@@ -76,6 +76,7 @@ function Deck({ deck, setDeck }) {
         {cardList.map((card, index) => {
           return (
             <div className="card" key={index}>
+              {console.log(card)}
               <p>{card.front}</p>
               <p>{card.back}</p>
               <Link to={`${url}/cards/${card.id}/edit`}>
