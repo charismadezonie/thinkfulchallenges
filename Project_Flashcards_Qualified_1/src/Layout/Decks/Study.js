@@ -6,52 +6,45 @@ import StudyBreadcrumb from "../StudyBreadcrumb";
 export function Study({ deck, setDeck }) {
   const history = useHistory();
   const { deckId } = useParams();
-  const [study, setStudy] = useState({
+  const [collection, setCollection] = useState({
     cards: [],
-    currentCard: 0,
-    cardMax: 0,
-    front: true,
-    flipped: false,
+    cardNumber: 0,
+    side: "front",
   });
 
   useEffect(() => {
-    async function loadDecks() {
-      const loadedDeck = await readDeck(deckId);
-      setDeck(loadedDeck);
-      setStudy({
-        currentCard: 0,
-        front: true,
-        flipped: false,
-        cards: loadedDeck.cards,
-        cardMax: loadedDeck.cards.length,
+    async function fetchCards() {
+      const deckData = await readDeck(deckId);
+      setDeck(deckData);
+      setCollection({
+        cardNumber: 0,
+        side: "front",
+        cards: deckData.cards,
       });
     }
-    loadDecks();
+    fetchCards();
   }, [deckId]);
 
   function handleFlip() {
-    setStudy({
-      ...study,
-      front: !study.front,
-      flipped: true,
+    setCollection({
+      ...collection,
+      side: "back",
     });
   }
 
   function handleNext() {
-    if (study.currentCard < study.cardMax) {
-      setStudy({
-        ...study,
-        currentCard: study.currentCard + 1,
-        flipped: false,
-        front: true,
+    if (collection.cardNumber < collection.cards.length) {
+      setCollection({
+        ...collection,
+        cardNumber: collection.cardNumber + 1,
+        side: "front",
       });
     } else {
       if (window.confirm("Start Over?")) {
-        setStudy({
-          ...study,
-          currentCard: 0,
-          flipped: false,
-          front: true,
+        setCollection({
+          ...collection,
+          cardNumber: 0,
+          side: "front",
         });
       } else {
         history.push("/");
@@ -59,15 +52,15 @@ export function Study({ deck, setDeck }) {
     }
   }
 
-  if (study.cards.length < 3) {
+  if (collection.cards.length < 3) {
     return (
       <>
         <StudyBreadcrumb deck={deck} />
         <h1>{deck.name}: Study</h1>
         <h2>Not enough cards.</h2>
         <p>
-          You need at least 3 cards to study. There are {study.cards.length}{" "}
-          cards in this deck.
+          You need at least 3 cards to study. There are{" "}
+          {collection.cards.length} cards in this deck.
         </p>
       </>
     );
@@ -77,16 +70,18 @@ export function Study({ deck, setDeck }) {
         <StudyBreadcrumb deck={deck} />
         <h1>Study: {deck.name}</h1>
         <div className="card">
-          <h6>Card {`${study.currentCard + 1} of ${study.cardMax}`}</h6>
+          <h6>
+            Card {`${collection.cardNumber + 1} of ${collection.cards.length}`}
+          </h6>
           <p className="card-text">
-            {study.front
-              ? study.cards[study.currentCard].front
-              : study.cards[study.currentCard].back}
+            {collection.side === "front"
+              ? collection.cards[collection.cardNumber].front
+              : collection.cards[collection.cardNumber].back}
           </p>
           <button type="button" onClick={handleFlip}>
             Flip
           </button>
-          {study.flipped ? (
+          {collection.side === "back" ? (
             <button type="button" onClick={handleNext}>
               Next
             </button>
