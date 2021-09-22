@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { createCard, readDeck } from "../../../utils/api";
 
 function AddCard({ deck, setDeck, card, setCard }) {
-  const history = useHistory();
   const { deckId } = useParams();
 
   useEffect(() => {
