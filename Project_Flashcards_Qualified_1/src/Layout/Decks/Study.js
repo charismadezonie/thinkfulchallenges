@@ -10,6 +10,8 @@ function Study({ deck, setDeck, card, setCard }) {
   const [cardId, setCardId] = useState(1);
   const history = useHistory();
 
+  console.log(deck);
+
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -28,7 +30,7 @@ function Study({ deck, setDeck, card, setCard }) {
       setCard(cardData);
     }
     fetchCurrentCard();
-  }, [cardId]);
+  }, [cardId, setCard]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -49,7 +51,7 @@ function Study({ deck, setDeck, card, setCard }) {
       setCardId(cardId + 1);
     } else {
       if (window.confirm("Restart Cards?")) {
-        setCardId(card.id);
+        setCardId(1);
       } else {
         history.push("/");
       }
@@ -60,6 +62,7 @@ function Study({ deck, setDeck, card, setCard }) {
     return (
       <>
         <StudyBreadcrumb deck={deck} />
+        <h1>{deck.name}: Study</h1>
         <h1>Not enough cards.</h1>
         <p>
           You need at least 3 cards to study. There are {cardList["length"]}{" "}
@@ -74,6 +77,7 @@ function Study({ deck, setDeck, card, setCard }) {
     return (
       <>
         <StudyBreadcrumb deck={deck} />
+        <h1>{deck.name}: Study</h1>
         <div className="card">
           <h1 className="card-title">
             Card {card.id} of {cardList["length"]}
@@ -89,11 +93,15 @@ function Study({ deck, setDeck, card, setCard }) {
     return (
       <>
         <StudyBreadcrumb deck={deck} />
+        <h1>{deck.name}: Study</h1>
         <div className="card">
           <h1 className="card-title">
             Card {cardId} of {cardList["length"]}
           </h1>
           <p>{card.back}</p>
+          <button type="button" onClick={handleFlip}>
+            Flip
+          </button>
           <button type="button" onClick={handleNext}>
             Next
           </button>

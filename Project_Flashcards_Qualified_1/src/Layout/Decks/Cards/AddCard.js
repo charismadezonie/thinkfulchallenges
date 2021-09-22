@@ -23,7 +23,7 @@ function AddCard({ deck, setDeck, card, setCard }) {
       [target.name]: target.value,
     });
   }
-  console.log(card);
+
   async function handleSubmit(event) {
     event.preventDefault();
     const response = await createCard(card.deckId, card);

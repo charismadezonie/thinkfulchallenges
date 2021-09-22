@@ -48,6 +48,12 @@
       "back": "b",
       "deckId": 1,
       "id": 7
+    },
+    {
+      "deckId": 2,
+      "front": "add one",
+      "back": "add this one in fact",
+      "id": 8
     }
   ]
 }
