@@ -13,7 +13,7 @@ import EditCard from "./Decks/Cards/EditCard";
 function Layout() {
   const [decks, setDecks] = useState([]);
   const [deck, setDeck] = useState({});
-  const [card, setCard] = useState([]);
+  const [card, setCard] = useState({});
   return (
     <>
       <Header />
@@ -30,7 +30,12 @@ function Layout() {
             <Deck deck={deck} setDeck={setDeck} />
           </Route>
           <Route path="/decks/:deckId/study">
-            <Study deck={deck} setDeck={setDeck} />
+            <Study
+              deck={deck}
+              setDeck={setDeck}
+              card={card}
+              setCard={setCard}
+            />
           </Route>
           <Route exact path="/decks/:deckId/edit">
             <EditDeck deck={deck} setDeck={setDeck} />

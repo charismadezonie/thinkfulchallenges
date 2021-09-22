@@ -43,10 +43,11 @@
       "id": 5
     },
     {
-      "deckId": "1",
-      "id": 7,
-      "front": "one mo",
-      "back": "gin"
+      "cards": [],
+      "front": "b",
+      "back": "b",
+      "deckId": 1,
+      "id": 7
     }
   ]
 }

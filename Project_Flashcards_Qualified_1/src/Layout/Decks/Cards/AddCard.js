@@ -9,20 +9,21 @@ function AddCard({ deck, setDeck, card, setCard }) {
   useEffect(() => {
     const abortController = new AbortController();
 
-    async function fetchCards() {
+    async function fetchDeck() {
       const decksData = await readDeck(deckId, abortController.signal);
       setDeck(decksData);
     }
-    fetchCards();
+    fetchDeck();
   }, [deckId, setDeck]);
 
   function handleChange({ target }) {
     setCard({
+      deckId: deckId,
       ...card,
       [target.name]: target.value,
     });
   }
-
+  console.log(card);
   async function handleSubmit(event) {
     event.preventDefault();
     const response = await createCard(card.deckId, card);
@@ -73,7 +74,6 @@ function AddCard({ deck, setDeck, card, setCard }) {
         <Link to="/">
           <button type="button">Cancel</button>
         </Link>
-
         <button type="submit">Submit</button>
       </form>
     </>

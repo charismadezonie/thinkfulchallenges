@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useHistory, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 import { readDeck, readCard, listCards } from "../../utils/api";
 import StudyBreadcrumb from "../StudyBreadcrumb";
 
-function Study({ deck, setDeck }) {
+function Study({ deck, setDeck, card, setCard }) {
   const { deckId } = useParams();
-  const history = useHistory();
-  const [currentCard, setCurrentCard] = useState({});
   const [cardList, setCardList] = useState([]);
   const [side, setSide] = useState("front");
   const [cardId, setCardId] = useState(1);
+  const history = useHistory();
 
   useEffect(() => {
     const abortController = new AbortController();
 
-    async function fetchCards() {
+    async function fetchDeck() {
       const decksData = await readDeck(deckId, abortController.signal);
       setDeck(decksData);
     }
-    fetchCards();
+    fetchDeck();
   }, [deckId, setDeck]);
 
   useEffect(() => {
@@ -26,7 +25,7 @@ function Study({ deck, setDeck }) {
 
     async function fetchCurrentCard() {
       const cardData = await readCard(cardId, abortController.signal);
-      setCurrentCard(cardData);
+      setCard(cardData);
     }
     fetchCurrentCard();
   }, [cardId]);
@@ -39,7 +38,7 @@ function Study({ deck, setDeck }) {
       setCardList(cardsData);
     }
     fetchCardList();
-  }, [deckId]);
+  }, [deckId, setCardList]);
 
   function handleFlip() {
     setSide("back");
@@ -50,7 +49,9 @@ function Study({ deck, setDeck }) {
       setCardId(cardId + 1);
     } else {
       if (window.confirm("Restart Cards?")) {
-        setCardId(1);
+        setCardId(card.id);
+      } else {
+        history.push("/");
       }
     }
     setSide("front");
@@ -75,9 +76,9 @@ function Study({ deck, setDeck }) {
         <StudyBreadcrumb deck={deck} />
         <div className="card">
           <h1 className="card-title">
-            Card {currentCard.id} of {cardList["length"]}
+            Card {card.id} of {cardList["length"]}
           </h1>
-          <p>{currentCard.front}</p>
+          <p>{card.front}</p>
           <button type="button" onClick={handleFlip}>
             Flip
           </button>
@@ -92,7 +93,7 @@ function Study({ deck, setDeck }) {
           <h1 className="card-title">
             Card {cardId} of {cardList["length"]}
           </h1>
-          <p>{currentCard.back}</p>
+          <p>{card.back}</p>
           <button type="button" onClick={handleNext}>
             Next
           </button>
