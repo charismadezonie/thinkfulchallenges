@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { deleteDeck, readDeck, listCards, deleteCard } from "../../utils/api";
+import { deleteDeck, readDeck, deleteCard } from "../../utils/api";
 import { useRouteMatch, Link, useHistory } from "react-router-dom";
 
-function Deck({ deck, setDeck }) {
+function Deck() {
+  const [deck, setDeck] = useState({ cards: [] });
   const { url } = useRouteMatch();
   const { params } = useRouteMatch();
   const deckId = params.deckId;
-  const [currentDeck, setCurrentDeck] = useState({});
-  const [cardList, setCardList] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
@@ -15,19 +14,9 @@ function Deck({ deck, setDeck }) {
 
     async function fetchCards() {
       const decksData = await readDeck(deckId, abortController.signal);
-      setCurrentDeck(decksData);
+      setDeck(decksData);
     }
     fetchCards();
-  }, [deckId]);
-
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    async function fetchCardList() {
-      const cardsData = await listCards(deckId, abortController.signal);
-      setCardList(cardsData);
-    }
-    fetchCardList();
   }, [deckId]);
 
   function handleDelete(event, deckId) {
@@ -52,12 +41,12 @@ function Deck({ deck, setDeck }) {
           <li className="breadcrumb-item">
             <Link to="/">Home</Link>
           </li>
-          <li className="breadcrumb-item">{currentDeck.name}</li>
+          <li className="breadcrumb-item">{deck.name}</li>
         </ol>
       </nav>
       <div>
-        <h1>{currentDeck.name}</h1>
-        <p>{currentDeck.description}</p>
+        <h1>{deck.name}</h1>
+        <p>{deck.description}</p>
         <Link to={`${url}/edit`}>
           <button type="button">Edit</button>
         </Link>
@@ -73,10 +62,9 @@ function Deck({ deck, setDeck }) {
       </div>
       <div>
         <h1>Cards</h1>
-        {cardList.map((card, index) => {
+        {deck.cards.map((card, index) => {
           return (
             <div className="card" key={index}>
-              {console.log(card.id)}
               <p>{card.front}</p>
               <p>{card.back}</p>
               <Link to={`${url}/cards/${card.id}/edit`}>
