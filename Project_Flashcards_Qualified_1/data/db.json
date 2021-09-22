@@ -9,11 +9,6 @@
       "name": "React Router",
       "description": "React Router is a collection of navigational components that compose declaratively with your application.",
       "id": 2
-    },
-    {
-    "name": "Mock Deck 3",
-  "description": "MD",
-  "id": 3
     }
   ],
   "cards": [
@@ -53,12 +48,7 @@
       "back": "b",
       "deckId": 1,
       "id": 7
-    },
-    {
-      "id": 4,
-      "front": "What has ears but cannot hear?",
-      "back": "A cornfield.",
-      "deckId": 8
     }
   ]
 }
+
