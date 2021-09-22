@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import { createCard, readDeck } from "../../../utils/api";
 
-function CreateCard() {
+function AddCard() {
   const history = useHistory();
   const { params } = useRouteMatch();
   const deckId = params.slug;
@@ -87,4 +87,4 @@ function CreateCard() {
   );
 }
 
-export default CreateCard;
+export default AddCard;

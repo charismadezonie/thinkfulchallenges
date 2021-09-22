@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { deleteDeck, readDeck, listCards, deleteCard } from "../../utils/api";
 import { useRouteMatch, Link, useHistory } from "react-router-dom";
 
-function Deck({ slug }) {
+function Deck() {
   const { url } = useRouteMatch();
   const { params } = useRouteMatch();
-  const deckId = params.slug;
+  const deckId = params.deckId;
   const [currentDeck, setCurrentDeck] = useState({});
   const [cardList, setCardList] = useState([]);
   const history = useHistory();
