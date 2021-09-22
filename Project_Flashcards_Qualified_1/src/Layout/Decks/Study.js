@@ -58,6 +58,7 @@ function Study({ deck, setDeck }) {
   if (cardList["length"] <= 2) {
     return (
       <>
+        <StudyBreadcrumb deck={deck} />
         <h1>Not enough cards.</h1>
         <p>
           You need at least 3 cards to study. There are {cardList["length"]}{" "}
