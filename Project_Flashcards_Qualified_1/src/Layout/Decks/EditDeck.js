@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link, useRouteMatch, useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { readDeck, updateDeck } from "../../utils/api";
 
-function EditDeck() {
-  const { params } = useRouteMatch();
-  const deckId = params.slug;
-  const [deckToEdit, setDeckToEdit] = useState();
-  const [editedData, setEditedData] = useState({
-    id: deckId,
-    name: "",
-    description: "",
-  });
+function EditDeck({ deck, setDeck }) {
+  const { deckId } = useParams();
   const history = useHistory();
 
   useEffect(() => {
@@ -18,25 +11,25 @@ function EditDeck() {
 
     async function fetchData() {
       const deckData = await readDeck(deckId, abortController.signal);
-      setDeckToEdit(deckData);
+      setDeck(deckData);
     }
     fetchData();
-  }, [deckId]);
+  }, [deckId, setDeck]);
 
   function handleChange({ target }) {
-    setEditedData({
-      ...editedData,
+    setDeck({
+      ...deck,
       [target.name]: target.value,
     });
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const response = await updateDeck(editedData);
+    const response = await updateDeck(deck);
     history.push(`/decks/${response.id}`);
   }
 
-  if (deckToEdit) {
+  if (deck) {
     return (
       <>
         <nav aria-label="breadcrumb">
@@ -45,7 +38,7 @@ function EditDeck() {
               <Link to="/">Home</Link>
             </li>
             <li className="breadcrumb-item">
-              <Link to={`/decks/${deckId}`}>{deckToEdit.name}</Link>
+              <Link to={`/decks/${deckId}`}>{deck.name}</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               Edit Deck
@@ -62,9 +55,9 @@ function EditDeck() {
                 type="text"
                 id="name"
                 name="name"
-                placeholder={deckToEdit.name}
+                placeholder={deck.name}
                 onChange={handleChange}
-                value={editedData.name}
+                value={deck.name}
               />
             </label>
             <br />
@@ -75,9 +68,9 @@ function EditDeck() {
                 id="description"
                 name="description"
                 className="text-area"
-                placeholder={deckToEdit.description}
+                placeholder={deck.description}
                 onChange={handleChange}
-                value={editedData.description}
+                value={deck.description}
               />
             </label>
             <br />

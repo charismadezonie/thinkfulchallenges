@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useRouteMatch, Link } from "react-router-dom";
+import { useParams, useHistory, Link } from "react-router-dom";
 import { readDeck, readCard, listCards } from "../../utils/api";
 import StudyBreadcrumb from "../StudyBreadcrumb";
 
-function Study() {
-  const { params } = useRouteMatch();
-  const deckId = params.slug;
-  const [currentDeck, setCurrentDeck] = useState({});
+function Study({ deck, setDeck }) {
+  const { deckId } = useParams();
+  const history = useHistory();
   const [currentCard, setCurrentCard] = useState({});
   const [cardList, setCardList] = useState([]);
   const [side, setSide] = useState("front");
@@ -17,10 +16,10 @@ function Study() {
 
     async function fetchCards() {
       const decksData = await readDeck(deckId, abortController.signal);
-      setCurrentDeck(decksData);
+      setDeck(decksData);
     }
     fetchCards();
-  }, [deckId]);
+  }, [deckId, setDeck]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -72,7 +71,7 @@ function Study() {
   } else if (side === "front") {
     return (
       <>
-        <StudyBreadcrumb currentDeck={currentDeck} />
+        <StudyBreadcrumb deck={deck} />
         <div className="card">
           <h1 className="card-title">
             Card {currentCard.id} of {cardList["length"]}
@@ -87,7 +86,7 @@ function Study() {
   } else {
     return (
       <>
-        <StudyBreadcrumb currentDeck={currentDeck} />
+        <StudyBreadcrumb deck={deck} />
         <div className="card">
           <h1 className="card-title">
             Card {cardId} of {cardList["length"]}

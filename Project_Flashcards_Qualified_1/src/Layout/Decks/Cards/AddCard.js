@@ -1,38 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { Link, useHistory, useRouteMatch } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { createCard, readDeck } from "../../../utils/api";
 
-function AddCard() {
+function AddCard({ deck, setDeck, card, setCard }) {
   const history = useHistory();
-  const { params } = useRouteMatch();
-  const deckId = params.slug;
-  const [currentDeck, setCurrentDeck] = useState({});
-  const [newCardData, setNewCardData] = useState({
-    front: "",
-    back: "",
-    deckId: deckId,
-  });
+  const { deckId } = useParams();
 
   useEffect(() => {
     const abortController = new AbortController();
 
     async function fetchCards() {
       const decksData = await readDeck(deckId, abortController.signal);
-      setCurrentDeck(decksData);
+      setDeck(decksData);
     }
     fetchCards();
-  }, [deckId]);
+  }, [deckId, setDeck]);
 
   function handleChange({ target }) {
-    setNewCardData({
-      ...newCardData,
+    setCard({
+      ...card,
       [target.name]: target.value,
     });
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const response = await createCard(newCardData.deckId, newCardData);
+    const response = await createCard(card.deckId, card);
     history.push(`/decks/${response.deckId}`);
   }
 
@@ -44,7 +37,7 @@ function AddCard() {
             <Link to="/">Home</Link>
           </li>
           <li className="breadcrumb-item">
-            <Link to="/">{currentDeck.name}</Link>
+            <Link to="/">{deck.name}</Link>
           </li>
           <li className="breadcrumb-item">Create Card</li>
         </ol>
@@ -60,7 +53,7 @@ function AddCard() {
             name="front"
             placeholder="Front side of card"
             onChange={handleChange}
-            value={newCardData.front}
+            value={card.front}
           />
         </label>
         <br />
@@ -73,7 +66,7 @@ function AddCard() {
             className="text-area"
             placeholder="Back side of card"
             onChange={handleChange}
-            value={newCardData.back}
+            value={card.back}
           />
         </label>
         <br />

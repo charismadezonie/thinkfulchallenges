@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { deleteDeck, readDeck, listCards, deleteCard } from "../../utils/api";
 import { useRouteMatch, Link, useHistory } from "react-router-dom";
 
-function Deck() {
+function Deck({ deck, setDeck }) {
   const { url } = useRouteMatch();
   const { params } = useRouteMatch();
   const deckId = params.deckId;
@@ -33,7 +33,7 @@ function Deck() {
   function handleDelete(deckId) {
     if (window.confirm("Are you sure?")) {
       deleteDeck(deckId);
-      history.push(`/decks/${deckId}`);
+      history.push("/");
     }
   }
 

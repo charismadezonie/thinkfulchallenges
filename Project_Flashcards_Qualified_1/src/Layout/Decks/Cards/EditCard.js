@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useParams, useRouteMatch, useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { readCard, updateCard, readDeck } from "../../../utils/api";
 
 function EditCard({ deck, setDeck, card, setCard }) {
@@ -14,7 +14,7 @@ function EditCard({ deck, setDeck, card, setCard }) {
       setDeck(decksData);
     }
     fetchDeck();
-  }, [deckId]);
+  }, [deckId, setDeck]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -24,7 +24,7 @@ function EditCard({ deck, setDeck, card, setCard }) {
       setCard(cardData);
     }
     fetchCard();
-  }, [cardId]);
+  }, [cardId, setCard]);
 
   function handleChange({ target }) {
     setCard({
@@ -35,9 +35,7 @@ function EditCard({ deck, setDeck, card, setCard }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const response = await updateCard(card).then((reponse) =>
-      history.push(`/decks/${deckId}`)
-    );
+    await updateCard(card).then((response) => history.push(`/decks/${deckId}`));
   }
 
   return (
