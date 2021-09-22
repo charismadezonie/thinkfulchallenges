@@ -51,7 +51,7 @@ function EditDeck({ deck, setDeck }) {
             <label htmlFor="name">
               Name
               <br />
-              <input
+              <textarea
                 type="text"
                 id="name"
                 name="name"
@@ -75,9 +75,9 @@ function EditDeck({ deck, setDeck }) {
             </label>
             <br />
             <Link to={`/decks/${deckId}`}>
-              <button type="button">Cancel</button>
+              <button type="button">Done</button>
             </Link>
-            <button type="submit">Submit</button>
+            <button type="submit">Save</button>
           </form>
         </div>
       </>
