@@ -18,16 +18,16 @@ const sayGoodbye = (req, res) => {
 };
 
 const saySomething = (req, res) => {
-  const greeting = req.query.greeting;
-  const name = req.params.name;
+  const greeting = req.params.greeting;
+  const name = req.query.name;
 
   const content = greeting && name ? `${greeting}, ${name}!` : `${greeting}!`;
   res.send(content);
 };
 
 // Routes
-app.get("/say/:greeting", saySomething);
 app.get("/say/goodbye", sayGoodbye);
 app.get("/say/welcome", sayWelcome);
+app.get("/say/:greeting", saySomething);
 
 module.exports = app;
