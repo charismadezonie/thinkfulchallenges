@@ -10,5 +10,13 @@ app.get("/send/:message", (req, res, next) => {
 });
 
 // Error Handling
+app.use((req, res, next) => {
+  res.send("An error occurred: Could not find route.");
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.send(`An error occurred: ${err}`);
+});
 
 module.exports = app;
