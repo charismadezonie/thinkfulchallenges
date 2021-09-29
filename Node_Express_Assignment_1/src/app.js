@@ -3,6 +3,12 @@ const validateZip = require("./middleware/validateZip");
 const getZoos = require("./utils/getZoos");
 const app = express();
 
+const checkForAdmin = (req, res, next) => {
+  req.query.admin === "true"
+    ? next()
+    : next("You do not have access to that route.");
+};
+
 app.get("/check/:zip", validateZip, (req, res, next) => {
   const zip = req.params.zip;
   getZoos(zip)
@@ -10,12 +16,15 @@ app.get("/check/:zip", validateZip, (req, res, next) => {
     : res.send(`${zip} does not exist in our records.`);
 });
 
-app.get("/zoos/all", (req, res, next) => {
-  res.send(`Enjoy your trip to ${req.params.all}!`);
+app.get("/zoos/all", checkForAdmin, (req, res, next) => {
+  res.send(`All zoos: ${getZoos().join("; ")}`);
 });
 
 app.get("/zoos/:zip", validateZip, (req, res, next) => {
-  res.send(`Enjoy your trip to ${req.params.zip}!`);
+  const zip = req.params.zip;
+  getZoos(zip).length > 0
+    ? res.send(`${zip} zoos: ${getZoos(zip).join("; ")}`)
+    : res.send(`${zip} has no zoos.`);
 });
 
 app.use((req, res, next) => {
@@ -23,7 +32,6 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  console.error(err);
   res.send(err);
 });
 
