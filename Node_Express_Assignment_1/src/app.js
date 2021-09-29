@@ -3,15 +3,15 @@ const validateZip = require("./middleware/validateZip");
 const app = express();
 
 app.get("/check/:zip", validateZip, (req, res, next) => {
-  res.send(`Enjoy your trip to ${req.params.abbreviation}!`);
+  res.send(`Enjoy your trip to ${req.params.zip}!`);
 });
 
 app.get("/zoos/:all", validateZip, (req, res, next) => {
-  res.send(`Enjoy your trip to ${req.params.abbreviation}!`);
+  res.send(`Enjoy your trip to ${req.params.all}!`);
 });
 
 app.get("/zoos/:zip", validateZip, (req, res, next) => {
-  res.send(`Enjoy your trip to ${req.params.abbreviation}!`);
+  res.send(`Enjoy your trip to ${req.params.zip}!`);
 });
 
 app.use((req, res, next) => {
