@@ -6,12 +6,12 @@ const app = express();
 const validateNameLength = require("./utils/validateNameLength");
 
 // Routes
-app.get("/hello/:name", (req, res, next) => {
+app.get("/hello/:name", validateNameLength, (req, res, next) => {
   const message = `Hello, ${req.params.name}!`;
   res.send(message);
 });
 
-app.get("/goodbye/:name", (req, res, next) => {
+app.get("/goodbye/:name", validateNameLength, (req, res, next) => {
   const message = `Goodbye, ${req.params.name}.`;
   res.send(message);
 });
