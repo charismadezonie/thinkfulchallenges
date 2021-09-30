@@ -6,7 +6,7 @@ const states = require("./data/states-data");
 
 // TODO: return an array of users from /users in form of { data: Array }
 app.use("/users", (req, res) => {
-  res.send("hey");
+  res.json({ data: users });
 });
 
 // TODO: return a single user by id from /users/:userId in form of { data: Object }
