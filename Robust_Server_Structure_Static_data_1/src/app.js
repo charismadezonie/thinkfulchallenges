@@ -23,12 +23,20 @@ app.use("/users", (req, res) => {
 
 // TODO: Return a single state from /states/:stateCode in the form of { data: { stateCode: String, name: String } }
 app.use("/states/:stateCode", (req, res, next) => {
-    const {stateCode} = req.params
-    const foundState = 
-})
+  const { stateCode } = req.params;
+  const foundState = states[stateCode];
+
+  if (foundState === undefined) {
+    next(`State code not found: ${stateCode}`);
+  } else {
+    res.json({ data: { stateCode: stateCode, name: foundState } });
+  }
+});
 
 // TODO: return all states from /states in the form of { data: Array }
-
+app.use("/states", (req, res) => {
+  res.json({ data: states });
+});
 
 // TODO: add not found handler
 app.use((request, response, next) => {
