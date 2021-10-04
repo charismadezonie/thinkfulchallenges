@@ -7,19 +7,6 @@ const notesRouter = require("./notes/notes.router");
 
 app.use(express.json());
 
-const noteExists = (req, res, next) => {
-  const noteId = Number(req.params.noteId);
-  const foundNote = notes.find((note) => note.id === noteId);
-  if (foundNote) {
-    return next();
-  } else {
-    return next({
-      status: 404,
-      message: `Note id not found: ${req.params.noteId}`,
-    });
-  }
-};
-
 app.get("/notes/:noteId", noteExists, (req, res, next) => {
   const noteId = Number(req.params.noteId);
   const foundNote = notes.find((note) => note.id === noteId);
@@ -29,14 +16,6 @@ app.get("/notes/:noteId", noteExists, (req, res, next) => {
 app.get("/notes", (req, res) => {
   res.json({ data: notes });
 });
-
-const hasText = (req, res, next) => {
-  const { data: { text } = {} } = req.body;
-  if (text) {
-    return next();
-  }
-  return next({ status: 400, message: "A 'text' property is required." });
-};
 
 app.post("/notes", hasText, (req, res, next) => {
   const { data: { text } = {} } = req.body;
