@@ -36,11 +36,11 @@ function update(req, res) {
   const { noteId } = req.params;
   const foundNote = notes.find((note) => note.id === Number(noteId));
 
-  const originalResult = foundNote.result;
-  const { data: { result } = {} } = req.body;
+  const originalText = foundNote.text;
+  const { data: { text } = {} } = req.body;
 
-  if (originalResult !== result) {
-    foundNote.result = result;
+  if (originalText !== text) {
+    foundNote.text = text;
   }
 
   res.json({ data: foundNote });
