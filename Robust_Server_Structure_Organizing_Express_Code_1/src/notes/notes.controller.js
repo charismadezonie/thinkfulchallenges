@@ -46,7 +46,24 @@ function update(req, res) {
   res.json({ data: foundNote });
 }
 
+function destroy(req, res, next) {
+  const { noteId } = req.params;
+  const index = notes.findIndex((note) => note.id === Number(noteId));
+  notes.splice(index, 1);
+
+  next({
+    status: 204,
+    message: `Note with ID ${req.params.noteId} has been deleted`,
+  });
+}
+
+function list(req, res) {
+  res.json({ data: notes });
+}
+
 module.exports = {
   update: [noteExists, update],
   create: [hasText, create],
+  destroy: [noteExists, destroy],
+  list,
 };
