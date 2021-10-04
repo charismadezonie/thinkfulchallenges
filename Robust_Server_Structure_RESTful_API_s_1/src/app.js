@@ -3,6 +3,8 @@ const app = express();
 
 const notes = require("./data/notes-data");
 
+app.use(express.json({}));
+
 app.get("/notes/:noteId", (req, res, next) => {
   const noteId = Number(req.params.noteId);
   const foundNote = notes.find((note) => note.id === noteId);
