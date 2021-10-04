@@ -3,6 +3,7 @@ const app = express();
 
 const path = require("path");
 const notes = require(path.resolve("src/data/notes-data"));
+const notesRouter = require("./notes/notes.router");
 
 app.use(express.json());
 
@@ -47,6 +48,8 @@ app.post("/notes", hasText, (req, res, next) => {
   notes.push(newNote);
   res.status(201).json({ data: newNote });
 });
+
+app.use("/notes", notesRouter);
 
 // Not found handler
 app.use((req, res, next) => {
