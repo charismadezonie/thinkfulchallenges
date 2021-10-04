@@ -21,6 +21,17 @@ const hasText = (req, res, next) => {
   return next({ status: 400, message: "A 'text' property is required." });
 };
 
+function create(req, res, next) {
+  const { data: { text } = {} } = req.body;
+
+  const newNote = {
+    id: notes.length + 1, // Assign the next ID
+    text,
+  };
+  notes.push(newNote);
+  res.status(201).json({ data: newNote });
+}
+
 function update(req, res) {
   const { noteId } = req.params;
   const foundNote = notes.find((note) => note.id === Number(noteId));
@@ -37,4 +48,5 @@ function update(req, res) {
 
 module.exports = {
   update: [noteExists, update],
+  create: [hasText, create],
 };
