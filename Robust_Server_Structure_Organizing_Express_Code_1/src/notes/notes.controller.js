@@ -61,9 +61,16 @@ function list(req, res) {
   res.json({ data: notes });
 }
 
+function read(req, res, next) {
+  const noteId = Number(req.params.noteId);
+  const foundNote = notes.find((note) => note.id === noteId);
+  res.json({ data: foundNote });
+}
+
 module.exports = {
   update: [noteExists, update],
   create: [hasText, create],
   destroy: [noteExists, destroy],
   list,
+  read: [noteExists, read],
 };
