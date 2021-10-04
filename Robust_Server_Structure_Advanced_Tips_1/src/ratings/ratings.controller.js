@@ -1,17 +1,13 @@
 const ratings = require("../data/ratings-data");
-const notes = require("../data/notes-data");
 
-function list(req, res) {
-  const { noteId = null } = res.locals;
-  if (noteId) {
-    const filteredRatings = ratings.filter((rating) => rating.noteId == noteId);
-    res.status(200).json({ data: filteredRatings });
-  } else {
-    res.status(200).json({ data: ratings });
-  }
+function read(req, res, next) {
+  res.json({ data: res.locals.rating });
 }
 
-module.exports = {
-  list,
-  read,
-};
+function list(req, res) {
+  const { noteId } = req.params;
+  const byResult = noteId ? (rating) => rating.noteId === noteId : () => true;
+  res.json({ data: ratings.filter(byResult) });
+}
+
+module.exports = { read, list };
