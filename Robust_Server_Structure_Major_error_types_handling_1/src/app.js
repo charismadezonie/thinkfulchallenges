@@ -28,18 +28,24 @@ app.get("/notes", (req, res) => {
 
 let lastNoteId = notes.reduce((maxId, note) => Math.max(maxId, note.id), 0);
 
-app.post("/notes", (req, res) => {
+function validateText(req, res, next) {
   const { data: { text } = {} } = req.body;
   if (text) {
-    const newNote = {
-      id: ++lastNoteId, // Increment last id then assign as the current ID
-      text,
-    };
-    notes.push(newNote);
-    res.status(201).json({ data: newNote });
+    next();
   } else {
-    res.sendStatus(400);
+    next({ status: 400, message: "A text property is required." });
   }
+}
+
+app.post("/notes", validateText, (req, res) => {
+  const { data: { text } = {} } = req.body;
+
+  const newNote = {
+    id: ++lastNoteId, // Increment last id then assign as the current ID
+    text,
+  };
+  notes.push(newNote);
+  res.status(201).json({ data: newNote });
 });
 
 // Not found handler
