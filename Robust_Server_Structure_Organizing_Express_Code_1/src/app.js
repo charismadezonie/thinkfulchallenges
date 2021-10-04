@@ -7,10 +7,6 @@ const notesRouter = require("./notes/notes.router");
 
 app.use(express.json());
 
-app.get("/notes", (req, res) => {
-  res.json({ data: notes });
-});
-
 app.use("/notes", notesRouter);
 
 // Not found handler

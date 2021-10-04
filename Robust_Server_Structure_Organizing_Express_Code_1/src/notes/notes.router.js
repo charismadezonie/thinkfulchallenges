@@ -5,7 +5,7 @@ router.route("/").get(controller.list).post(controller.create);
 router
   .route("/:noteId")
   .put(controller.update)
-  .delete(controller.destroy)
+  .delete(controller.delete)
   .get(controller.read);
 
 module.exports = router;
