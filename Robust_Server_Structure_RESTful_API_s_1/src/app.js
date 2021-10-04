@@ -16,7 +16,14 @@ app.get("/notes", (req, res) => {
 // TODO: Add ability to create a new note
 
 // TODO: add not found handler
+app.use((request, response, next) => {
+  next(`Not found: ${request.originalUrl}`);
+});
 
 // TODO: Add error handler
+app.use((error, request, response, next) => {
+  console.error(error);
+  response.send(error);
+});
 
 module.exports = app;
