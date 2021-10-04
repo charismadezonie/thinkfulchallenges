@@ -6,7 +6,10 @@ const notes = require("./data/notes-data");
 app.get("/notes/:noteId", (req, res, next) => {
   const noteId = Number(req.params.noteId);
   const foundNote = notes.find((note) => note.id === noteId);
-  if (!foundNote) {
+  if (foundNote) {
+    res.json({ data: foundNote });
+  } else {
+    next(`Note id not found: ${req.params.noteId}`);
   }
 });
 
@@ -18,16 +21,20 @@ app.get("/notes", (req, res) => {
 let lastNoteId = notes.reduce((maxId, note) => Math.max(maxId, note.id), 0);
 
 app.post("/notes", (req, res) => {
-  const { data: { text } = {} } = req.body;
-  if (text) {
-    const newNote = {
-      id: ++lastNoteId,
-      text,
-    };
-    notes.push(newNote);
-    res.status(201).json({ data: newNote });
+  if (req.body) {
+    const { data: { text } = {} } = req.body;
+    if (text) {
+      const newNote = {
+        id: ++lastNoteId,
+        text,
+      };
+      notes.push(newNote);
+      res.status(201).json({ data: newNote });
+    } else {
+      res.sendStatus(400);
+    }
   } else {
-    res.sendStatus(400);
+    next("invalid request");
   }
 });
 
@@ -38,7 +45,7 @@ app.use((request, response, next) => {
 
 // TODO: Add error handler
 app.use((err, req, res, next) => {
-  res.sendStatus(400);
+  res.status(400).send(err);
 });
 
 module.exports = app;
