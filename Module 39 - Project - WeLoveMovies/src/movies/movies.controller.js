@@ -1,10 +1,11 @@
 const moviesService = require("./movies.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
-async function list(req, res, next) {
+async function list(req, res) {
   const { is_showing } = req.query;
+
   const data = is_showing
-    ? await await moviesService.listNowPlaying()
+    ? await (await moviesService.listNowPlaying()).splice(0, 15)
     : await moviesService.list();
 
   res.status(200).json({ data: data });
