@@ -1,6 +1,16 @@
 exports.up = function (knex) {
   return knex.schema.createTable("movies_theaters", (table) => {
-    table.increments("combo_id").primary();
+    table
+      .foreign("movie_id")
+      .references("movie_id")
+      .fromTable("movies")
+      .onDelete("cascade");
+    table
+      .foreign("theater_id")
+      .references("theater_id")
+      .fromTable("theaters")
+      .onDelete("cascade");
+    table.boolean("is_showing");
   });
 };
 
