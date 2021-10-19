@@ -7,11 +7,25 @@ function list(req, res, next) {
     .catch(next);
 }
 
-function read(movie_id) {
-  return knex("movies").select("*").where({ movie_id }).first();
+function read(req, res) {
+  const { movie: data } = res.locals;
+  res.json({ data });
+}
+
+function movieExists(req, res, next) {
+  moviesService
+    .read(req.params.movieId)
+    .then((movie) => {
+      if (movie) {
+        res.locals.movie = movie;
+        return next();
+      }
+      next({ status: 404, message: `Movie cannot be found.` });
+    })
+    .catch(next);
 }
 
 module.exports = {
   list,
-  read,
+  read: [movieExists, read],
 };
