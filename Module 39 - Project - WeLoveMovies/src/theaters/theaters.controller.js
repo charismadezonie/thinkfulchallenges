@@ -6,4 +6,6 @@ async function list(req, res) {
   res.status(200).json({ data: theaters });
 }
 
-module.exports = { asyncErrorBoundary(list) };
+module.exports = {
+  list: [asyncErrorBoundary(list)],
+};
