@@ -1,6 +1,11 @@
 const reviewsService = require("./reviews.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
+function read(req, res) {
+  const { review: data } = res.locals;
+  res.json({ data });
+}
+
 function reviewExists(req, res, next) {
   reviewsService
     .read(req.params.reviewId)
@@ -27,4 +32,5 @@ function update(req, res, next) {
 
 module.exports = {
   update: [reviewExists, update],
+  read,
 };
