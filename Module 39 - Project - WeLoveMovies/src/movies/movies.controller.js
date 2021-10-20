@@ -46,5 +46,5 @@ module.exports = {
     asyncErrorBoundary(movieExists),
     asyncErrorBoundary(getTheaters),
   ],
-  getReviews: [asyncErrorBoundary(movieExists), asyncErrorBoundary(getReviews)],
+  getReviews: [movieExists, asyncErrorBoundary(getReviews)],
 };
