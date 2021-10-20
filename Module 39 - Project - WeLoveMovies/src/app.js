@@ -6,9 +6,6 @@ const moviesRouter = require("./movies/movies.router");
 app.use(express.json());
 
 app.use("/movies", moviesRouter);
-// app.get("/movies", (req, res) => {
-//   req.query.is_showing === true;
-// });
 
 // Not found handler
 app.use((req, res, next) => {
