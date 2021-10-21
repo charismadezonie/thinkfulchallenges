@@ -13,11 +13,11 @@ function update(updatedReview, review_id) {
 }
 
 function getCritic(criticId) {
-  return knex("critics").where({ critic_id: criticId }).select();
+  return knex("critics").select("*").where({ critic_id: criticId }).select();
 }
 
 function destroy(reviewId) {
-  return knex("reviews").where({ review_id: reviewId }).del();
+  return knex("reviews").select("*").where({ review_id: reviewId }).del();
 }
 
 module.exports = {

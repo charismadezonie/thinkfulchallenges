@@ -2,16 +2,14 @@ const theatersService = require("./theaters.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 async function list(req, res) {
-  const theaters = await theatersService.list();
-  const theatersAndMovies = [];
-  for (let i = 0; i < theaters.length; i++) {
-    const theater = theaters[i];
-    const { theater_id } = theater;
+  const theatersList = await theatersService.list();
+  const result = [];
+  for (let i = 0; i < theatersList.length; i++) {
+    const { theater_id } = theatersList[i];
     const movies = await theatersService.listTheatersWithMovies(theater_id);
-    const TM = { ...theater, movies: movies };
-    theatersAndMovies.push(TM);
+    result.push({ ...theatersList[i], movies: movies });
   }
-  res.status(200).json({ data: theatersAndMovies });
+  res.status(200).json({ data: result });
 }
 
 module.exports = {
