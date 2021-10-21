@@ -1,9 +1,12 @@
-const router = require("express").Router({ mergeParams: true });
-const { get } = require("request");
+const router = require("express").Router();
 const controller = require("./reviews.controller");
 const methodNotAllowed = require("../errors/methodNotAllowed");
 
-router.route("/:supplierId([0-9]+)").put(controller.update);
-router.route("/").get(controller.read).all(methodNotAllowed);
+router
+  .route("/:reviewId([0-9]+)")
+  .get(controller.read)
+  .put(controller.update)
+  .all(methodNotAllowed);
+router.route("/").all(methodNotAllowed);
 
 module.exports = router;
