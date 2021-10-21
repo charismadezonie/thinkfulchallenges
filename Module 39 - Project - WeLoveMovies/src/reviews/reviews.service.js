@@ -1,10 +1,14 @@
 const knex = require("../db/connection");
 
-function read(review_id) {
-  return knex("reviews").select("*").where({ review_id });
+function read(reviewId) {
+  return knex("reviews").where({ review_id: reviewId });
 }
 
-function update(updatedReview) {
+function list() {
+  return knex("reviews").select("*");
+}
+
+function update(updatedReview, reviewId) {
   return knex("reviews")
     .select("*")
     .where({ review_id: updatedReview.review_id })
@@ -12,7 +16,13 @@ function update(updatedReview) {
     .then((updatedRecords) => updatedRecords[0]);
 }
 
+function getCritic(criticId) {
+  return db("critics").where({ critic_id: criticId }).select();
+}
+
 module.exports = {
   read,
   update,
+  list,
+  getCritic,
 };
