@@ -23,12 +23,12 @@ function gcd2(a, b) {
   let divA = [1, a];
   let divB = [1, b];
   let common = [];
-  for (let i = 2; i < a.length; i++) {
+  for (let i = 2; i <= a - 1; i++) {
     if (a % i === 0) {
       divA.push(i);
     }
   }
-  for (let i = 2; i < a.length; i++) {
+  for (let i = 2; i <= b - 1; i++) {
     if (b % i === 0) {
       divB.push(i);
     }
