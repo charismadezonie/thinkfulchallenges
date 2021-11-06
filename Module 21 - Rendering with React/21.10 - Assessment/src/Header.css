@@ -1,0 +1,9 @@
+.header {
+  display:flex;
+  padding-bottom: 10px;
+}
+
+img {
+  width: 50%;
+  padding-right: 10px;
+}

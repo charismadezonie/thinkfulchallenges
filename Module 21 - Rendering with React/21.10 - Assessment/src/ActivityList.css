@@ -1,0 +1,8 @@
+table {
+  border: 2px solid black;
+}
+
+.left-side {
+  text-align: right;
+  padding-right: 5px;
+}
